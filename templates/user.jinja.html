@@ -1,0 +1,39 @@
+{% extends "base.jinja.html" %}
+
+{% block title %}
+<title>scraps profile - update of delete your user account</title>
+<meta name="descripton" content="scraps lets you scrape text content from web pages across the internet.">
+{% endblock %}
+
+{% block nav_menu %}
+<ul class="navbar-nav text-light text-light ml-auto">
+  <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('crawl') }}">crawl</a></li>
+  <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('logout') }}">logout</a></li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<p class="heading-secondary p-4">Your scraps user profile</p>
+<article class="user-profile p-4">
+  <p>Registered email: {{ session['user']['email'] }}</p>
+  <p>using scraps since: {{ session['user']['member_since'] }}</p>
+</article>
+<div class="row p-4">
+  <div class="col-md-6 col-sm-12">
+    <form action="{{ url_for('users', id=session['user']['id']) }}" method="POST">
+      <input type="hidden" name="action" value="_update">
+      <button type="submit" class="form-control form-control-lg btn btn-secondary">
+        Update user profile
+      </button>
+    </form>
+  </div>
+  <div class="col-md-6 col-sm-12">
+    <form action="{{ url_for('users', id=session['user']['id']) }}" method="POST">
+      <input type="hidden" name="action" value="_delete">
+      <button type="submit" class="form-control form-control-lg btn btn-danger">
+        Delete user profile
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

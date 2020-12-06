@@ -1,0 +1,20 @@
+{% extends "base.jinja.html" %}
+
+{% block title %}
+<title>scraps - welcome to the web scraping platform for students, web designers and plaigiarizers</title>
+<meta name="descripton" content="welcome to scraps. to help limit usage, we don't allow non members to scrape.">
+{% endblock %}
+
+{% block nav_menu %}
+<ul class="navbar-nav text-light text-light ml-auto">
+  <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('show_app_index') }}">home</a></li>
+  <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('login') }}">login</a></li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<p class="heading-secondary text-center p-4">Welcome to scraps!</p>
+
+<p class="text-success text-center mb-4">You've successfully registered with the email address: {{ user.email[1] }}</p>
+<p class="text-center mb-4">You can now login and use our web scraper</p>
+{% endblock %}

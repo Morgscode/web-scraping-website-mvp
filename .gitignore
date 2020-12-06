@@ -1,0 +1,5 @@
+.vscode
+*.pyc
+.DS_Store
+scraps_local
+public/

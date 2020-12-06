@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% block title %}{% endblock %}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="static/bootstrap.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+</head>
+
+<body>
+  <header>
+    <div class="container-fluid p-4 bg-dark">
+      <nav class="navbar navbar-expand-lg navbar-light d-flex align-items-center">
+        <p class="text-light navbar-brand">scraps</p>
+        {%block nav_menu %}{% endblock %}
+      </nav>
+    </div>
+
+  </header>
+  <main>
+    <div class="container pt-4 pb-4" style="background-color: #f4f4f4; min-height: 100vh;">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <ul class=flashes>
+        {% for category, message in messages %}
+        <li class="text-{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+  <footer>
+    <div class="container-fluid bg-dark text-light p-4">
+      <p class="copyright text-center">&copy; nobody {{ year }}</p>
+    </div>
+  </footer>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+{% extends "base.jinja.html" %}
+
+{% block title %}
+<title>scraps profile - update your user account</title>
+<meta name="descripton" content="scraps lets you scrape text content from web pages across the internet.">
+{% endblock %}
+
+{% block nav_menu %}
+<ul class="navbar-nav text-light text-light ml-auto">
+  <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('crawl') }}">crawl</a></li>
+  <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('logout') }}">logout</a></li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<p class="heading-secondary p-4">Your scraps user profile</p>
+<article class="user-profile p-4">
+  <p>Registered email: {{ session['user']['email'] }}</p>
+  <p>using scraps since: {{ session['user']['member_since'] }}</p>
+</article>
+<p class="heading-secondary p-4">You can update your user details here</p>
+<form action="{{ url_for('users', id=session['user']['id']) }}" method="POST" class="p-4 mt-4 mb-4">
+  <input type="hidden" name="action" value="_patch">
+  <div class="form-group mb-4">
+    <label for="user-email">Email address</label>
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    <input type="email" class="form-control form-control-lg" id="user-email" aria-describedby="emailHelp"
+      placeholder="{{ session['user']['email'] }}" name="user-email">
+  </div>
+  <div class="form-group mb-4">
+    <label for="user-password">Current password</label>
+    <small class="form-text text-muted">you'll need to enter this to update your user email</small>
+    <input type="password" class="form-control" id="user-password" name="user-password"
+      placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;" minlength="5" maxlength="35" required>
+  </div>
+  <div class="form-group mb-4">
+    <label for="new-password">New password</label>
+    <small class="form-text text-muted">If you want to update your password, fill this field out</small>
+    <input type="password" class="form-control" id="new-password" name="new-password" minlength="5" maxlength="35">
+  </div>
+  <button type="submit" class="btn btn-lg btn-info">Submit</button>
+</form>
+{% endblock %}

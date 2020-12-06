@@ -1,0 +1,45 @@
+{% extends "base.jinja.html" %}
+
+{% block title %}
+<title>scraps - the web scraper for students, web designers and plaigiarizers</title>
+<meta name="descripton" content="scraps lets you scrape text content from web pages across the internet.">
+{% endblock %}
+
+{% block nav_menu %}
+<ul class="navbar-nav text-light text-light ml-auto">
+  <li class="nav-item"><a class="nav-link text-light"
+      href="{{ url_for('users', id=session['user']['id']) }}">profile</a>
+  </li>
+  <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('logout')}}">logout</a></li>
+</ul>
+{% endblock %}
+
+{% block content %}
+
+<p class="heading-secondary p-4">This is where the magic happens</p>
+<form action="{{ url_for('crawl') }}" method="POST" class="p-4 mt-4 mb-4">
+  <div class="form-group mb-4">
+    <label for="webpage-url">Enter the webpage url</label>
+    <input type="text" class="form-control form-control-lg" id="webpage-url" aria-describedby="webpage url entry"
+      placeholder="Enter your the webpage you want to scrape" name="webpage-url">
+  </div>
+  <div class="form-group mb-4">
+    <label for="crawl-option">Refine how you crawl the domain</label>
+    <select class="form-control form-control-lg" name="crawl-option">
+      <option value="single-page">Single page</option>
+      <option value="nav-links">Navigation links</option>
+      <option value="internal-links">All internal links</option>
+    </select>
+  </div>
+  <div class="form-group mb-4">
+    <label for="content">Define what content you want to extract</label>
+    <select class="form-control form-control-lg" name="content-option">
+      <option value="main-content">Main body content</option>
+      <option value="all-content">All content</option>
+      <option value="page-title">Page title</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-lg btn-info">Submit</button>
+</form>
+
+{% endblock %}
