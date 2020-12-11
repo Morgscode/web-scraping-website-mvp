@@ -1,4 +1,6 @@
 from scraps.app.models.User import User
+import scraps.auth as auth
+import html
 from flask import request, render_template, session, redirect, url_for, flash
 
 
@@ -23,15 +25,7 @@ def user_login(data: list):
         flash("incorrect login, try again", "danger")
         return render_template("login.jinja.html")
     else:
-        session.clear()
-        user_dict = {
-            'email': user.email[1],
-            'password': user.password[1],
-            'id': user.id,
-            'is_logged_in': 1,
-            'member_since': user.join_date
-        }
-        session["user"] = user_dict
+        auth.bind_user_to_session(user)
         flash('successfully logged in as {user}'.format(
             user=session['user']['email']), "info")
         return redirect(url_for("crawl"))
@@ -45,29 +39,21 @@ def user_logout():
 
 def user_update(id: int, data: dict):
 
+    hased_pw = auth.hash_password(data['user-password'])
+    print(hased_pw)
+
     if data['user-password'] == session['user']['password']:
 
-        if data['new-password'] != '':
-            session['user']['password'] = data['new-password']
-
-        if data['user-email'] != '':
-            session['user']['email'] = data['user-email']
-
-        user_credentials = {
-            'user-email': session['user']['email'],
-            'user-password': session['user']['password']
-        }
-
+        user_credentials = auth.bind_data_to_session_credentials(data)
         user = User(user_credentials)
         user.update_user(id)
-        session.modified = True
         return redirect(url_for('users', id=id))
     else:
         flash("invalid form submission", "danger")
         return redirect(url_for('users', id=id))
 
 
-def user_delete(id):
+def user_delete(id: int):
     user_credentials = {
         'user-email': session['user']['email'],
         'user-password': session['user']['password']
