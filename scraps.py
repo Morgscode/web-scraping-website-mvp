@@ -1,5 +1,6 @@
 import datetime
 import scraps.app.controllers.user_controller as user_controller
+import scraps.app.controllers.crawl_controller as crawl_controller
 
 from flask import Flask, request, redirect, url_for, render_template, session, flash
 from flask_wtf.csrf import CSRFProtect
@@ -80,8 +81,8 @@ def logout():
 def crawl():
     if 'user' not in session:
         return redirect(url_for('login'))
-
     if request.method == "POST":
-        return 'crawl_results'
+        print(request)
+        return crawl_controller.process_user_crawl_request()
     else:
         return render_template("crawl-form.jinja.html", year=current_year)

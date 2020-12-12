@@ -1,33 +1,46 @@
-window.addEventListener("load", function () {
-  var form = document.querySelector("#crawl-form");
-  var formBtn = document.querySelector("#crawl-form-button");
-  var crawlResponse = document.querySelector("#crawl-response");
-  var crawlResponseText = document.querySelector("#crawl-response__text");
+window.addEventListener("load", () => {
+  const form = document.querySelector("#crawl-form");
+  const formBtn = document.querySelector("#crawl-form-button");
+  const crawlResponse = document.querySelector("#crawl-response");
+  const crawlResponseText = document.querySelector("#crawl-response__text");
 
   function processCrawlReqeust() {
     if (form.checkValidity()) {
-      var formData = new FormData(form);
-      formData.forEach(function (field) {
-        console.log(field);
-      });
+      const formData = new FormData(form);
+      postFormData(`${window.location.origin}/crawl`, formData)
+        .then((data) => {
+          console.log(data);
+          showCrawlResponse(data.message, "crawl-response__success");
+          form.reset();
+        })
+        .catch((error) => {
+          showCrawlResponse(error.message, "crawl-response__error");
+        });
     } else {
-      showCrawlError("Invalid form submission");
+      showCrawlResponse("Invalid form submission", "crawl-response__error");
     }
   }
 
   async function postFormData(url, data) {
-    const response = await fetch(url, {
+    const token = data.get("csrf_token");
+    let response = await fetch(url, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-CSRFToken": token,
+      },
+      body: data,
     });
+    return response.json();
   }
 
-  function showCrawlError(error) {
-    crawlResponse.classList.add("crawl-response__error");
-    crawlResponseText.innerHTML = error;
+  function showCrawlResponse(errorText, responseClass) {
+    crawlResponse.classList.add(responseClass);
+    crawlResponseText.innerHTML = errorText;
     crawlResponse.classList.add("crawl-response__active");
     window.setTimeout(function () {
       crawlResponse.classList.remove("crawl-response__active");
-      crawlResponse.classList.remove("crawl-response__error");
+      crawlResponse.classList.remove(responseClass);
       crawlResponseText.textContent = "";
     }, 4000);
   }
