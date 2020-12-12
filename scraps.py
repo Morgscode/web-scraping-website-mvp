@@ -2,7 +2,7 @@ import datetime
 import scraps.app.controllers.user_controller as user_controller
 import scraps.app.controllers.crawl_controller as crawl_controller
 
-from flask import Flask, request, redirect, url_for, render_template, session, flash
+from flask import Flask, request, redirect, url_for, render_template, session, g, flash
 from flask_wtf.csrf import CSRFProtect
 
 app = Flask("scraps")
@@ -18,6 +18,11 @@ current_year = time.year
 @app.before_request
 def check_csrf():
     csrf.protect()
+
+
+@app.before_request
+def set_app_year():
+    g.year = current_year
 
 
 @app.route("/")
@@ -82,7 +87,7 @@ def crawl():
     if 'user' not in session:
         return redirect(url_for('login'))
     if request.method == "POST":
-        print(request)
-        return crawl_controller.process_user_crawl_request()
+        print(request.form)
+        return crawl_controller.process_user_crawl_request(request.form)
     else:
         return render_template("crawl-form.jinja.html", year=current_year)
