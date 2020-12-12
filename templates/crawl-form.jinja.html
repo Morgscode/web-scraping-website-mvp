@@ -1,6 +1,6 @@
 {% extends "base.jinja.html" %}
 
-{% block title %}
+{% block meta %}
 <title>scraps - the web scraper for students, web designers and plaigiarizers</title>
 <meta name="descripton" content="scraps lets you scrape text content from web pages across the internet.">
 {% endblock %}
@@ -15,13 +15,16 @@
 {% endblock %}
 
 {% block content %}
-
 <p class="heading-secondary p-4">This is where the magic happens</p>
-<form action="{{ url_for('crawl') }}" method="POST" class="p-4 mt-4 mb-4">
+<div id="crawl-response">
+  <h4 id="crawl-response__text"></h4>
+</div>
+<form method="POST" class="p-4 mb-4" id="crawl-form">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
   <div class="form-group mb-4">
     <label for="webpage-url">Enter the webpage url</label>
     <input type="text" class="form-control form-control-lg" id="webpage-url" aria-describedby="webpage url entry"
-      placeholder="Enter your the webpage you want to scrape" name="webpage-url">
+      placeholder="Enter your the webpage you want to scrape" name="webpage-url" required>
   </div>
   <div class="form-group mb-4">
     <label for="crawl-option">Refine how you crawl the domain</label>
@@ -39,7 +42,10 @@
       <option value="page-title">Page title</option>
     </select>
   </div>
-  <button type="submit" class="btn btn-lg btn-info">Submit</button>
+  <button type="button" class="btn btn-lg btn-info" id="crawl-form-button">Submit</button>
 </form>
+{% endblock %}
 
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/crawl.js') }}"></script>
 {% endblock %}

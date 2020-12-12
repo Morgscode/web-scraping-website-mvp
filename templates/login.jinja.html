@@ -1,6 +1,6 @@
 {% extends "base.jinja.html" %}
 
-{% block title %}
+{% block meta %}
 <title>scraps - login to the scraps web scraper</title>
 <meta name="descripton" content="login to scraps. to help limit usage, we don't allow non members to scrape.">
 {% endblock %}
@@ -15,6 +15,7 @@
 {% block content %}
 <p class="heading-secondary p-4">You'll need to login to use use scraps</p>
 <form action="{{ url_for('login') }}" method="POST" class="p-4 mt-4 mb-4">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
   <div class="form-group mb-4">
     <label for="user-email">Email address</label>
     <input type="email" class="form-control form-control-lg" id="user-email" aria-describedby="emailHelp"

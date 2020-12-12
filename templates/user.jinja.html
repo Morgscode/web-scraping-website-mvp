@@ -1,6 +1,6 @@
 {% extends "base.jinja.html" %}
 
-{% block title %}
+{% block meta %}
 <title>scraps profile - update of delete your user account</title>
 <meta name="descripton" content="scraps lets you scrape text content from web pages across the internet.">
 {% endblock %}
@@ -21,6 +21,7 @@
 <div class="row p-4">
   <div class="col-md-6 col-sm-12">
     <form action="{{ url_for('users', id=session['user']['id']) }}" method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
       <input type="hidden" name="action" value="_update">
       <button type="submit" class="form-control form-control-lg btn btn-secondary">
         Update user profile
@@ -29,6 +30,7 @@
   </div>
   <div class="col-md-6 col-sm-12">
     <form action="{{ url_for('users', id=session['user']['id']) }}" method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
       <input type="hidden" name="action" value="_delete">
       <button type="submit" class="form-control form-control-lg btn btn-danger">
         Delete user profile

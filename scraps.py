@@ -2,18 +2,25 @@ import datetime
 import scraps.app.controllers.user_controller as user_controller
 
 from flask import Flask, request, redirect, url_for, render_template, session, flash
-
+from flask_wtf.csrf import CSRFProtect
 
 app = Flask("scraps")
 app.config["SECRET_KEY"] = 'dev'
 app.config["FLASK_ENV"] = 'development'
 app.config["PERMANENT_SESSION_LIFETIME"] = datetime.timedelta(minutes=30)
+csrf = CSRFProtect(app)
 
 time = datetime.datetime.now()
 current_year = time.year
 
 
+@app.before_request
+def check_csrf():
+    csrf.protect()
+
+
 @app.route("/")
+@csrf.exempt
 def show_app_index():
     if 'user' in session and 'is_logged_in' in session['user']:
         return redirect(url_for('crawl'))

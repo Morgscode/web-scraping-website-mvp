@@ -8,6 +8,7 @@ flask = "*"
 bcrypt = "*"
 requests = "*"
 beautifulsoup4 = "*"
+flask-wtf = "*"
 
 [dev-packages]
 autopep8 = "*"

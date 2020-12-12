@@ -1,6 +1,6 @@
 {% extends "base.jinja.html" %}
 
-{% block title %}
+{% block meta %}
 <title>scraps - register for the scraps web scraper</title>
 <meta name="descripton" content="register for scraps. to help limit usage, we don't allow non members to scrape.">
 {% endblock %}
@@ -15,6 +15,7 @@
 {% block content %}
 <p class="heading-secondary p-4">You"ll need to register to use scraps. You can do so using the form below</p>
 <form action="{{ url_for('register') }}" method="POST" class="p-4 mt-4 mb-4">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
   <div class="form-group mb-4">
     <label for="user-email">Email address</label>
     <input type="email" class="form-control form-control-lg" id="user-email" aria-describedby="emailHelp"

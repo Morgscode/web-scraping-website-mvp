@@ -59,14 +59,17 @@ class User:
         user_row = self.db.fetch_single(
             self.table, user_columns[0], user_values[0])
 
-        is_user_password = auth.check_hashed_password(
-            self.credentials['user_password'], user_row[2])
+        if user_row:
+            is_user_password = auth.check_hashed_password(
+                self.credentials['user_password'], user_row[2])
 
-        if user_row and self.credentials['user_email'] == user_row[1] and is_user_password:
-            self.is_logged_in = True
-            self.id = user_row[0]
-            self.join_date = user_row[3]
-            return True
+            if user_row and self.credentials['user_email'] == user_row[1] and is_user_password:
+                self.is_logged_in = True
+                self.id = user_row[0]
+                self.join_date = user_row[3]
+                return True
+            else:
+                return False
         else:
             return False
 
