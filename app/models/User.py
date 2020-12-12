@@ -71,6 +71,8 @@ class User:
             return False
 
     def update_user(self, id: int):
+        self.credentials['user_password'] = auth.hash_password(
+            self.credentials['user_password'])
         try:
             self.db.update_single(self.table, self.credentials, id)
             return True
