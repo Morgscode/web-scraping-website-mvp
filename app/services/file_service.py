@@ -1,23 +1,25 @@
 import os
+import scraps
 
 
 def setup_data_directory(parsed_target_url):
     # let's create a directory for data
-    if not os.path.exists('./web-scraper-data/' + str(parsed_target_url.netloc)):
-        os.makedirs('./web-scraper-data/' + str(parsed_target_url.netloc))
+    if not os.path.exists(scraps.instance_path + '/public/' + str(parsed_target_url.netloc)):
+        os.makedirs(scraps.instance_path + '/public/' +
+                    str(parsed_target_url.netloc))
 
 
 def setup_error_logs():
     # let's create a directory for logs
-    if not os.path.exists('./web-scraper-logs'):
-        os.makedirs('./web-scraper-logs')
+    if not os.path.exists(scraps.instance_path + "/logs"):
+        os.makedirs(scraps.instance_path + "/logs")
 
 
 def write_text_to_file(web_page_text: str, formatted_path: str,  counter: int, parsed_target_url: str):
 
     # we use the counter to map the files in the directory to the same cacnonical order as the nav
 
-    text_file_location = "./web-scraper-data/{domain}/{pgindex}_{fmtdpath}.txt".format(
+    text_file_location = scraps.instance_path + "/public/{domain}/{pgindex}_{fmtdpath}.txt".format(
         domain=parsed_target_url.netloc, pgindex=str(counter), fmtdpath=formatted_path)
 
     # lets open/create a new file called in the website data directory and overwrite its contents if its been indexed before
