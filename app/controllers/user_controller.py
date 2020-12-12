@@ -39,11 +39,7 @@ def user_logout():
 
 def user_update(id: int, data: dict):
 
-    hased_pw = auth.hash_password(data['user-password'])
-    print(hased_pw)
-
     if data['user-password'] == session['user']['password']:
-
         user_credentials = auth.bind_data_to_session_credentials(data)
         user = User(user_credentials)
         user.update_user(id)

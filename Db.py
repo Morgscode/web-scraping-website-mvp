@@ -36,7 +36,6 @@ class Database:
             return False
 
     def insert_single(self, table: str, data: dict):
-        print(data)
         columns = ""
         placeholders = ""
         values = []
@@ -71,7 +70,7 @@ class Database:
         values = []
         data_length = len(data)
 
-        for index, (key, value) in enumerate(data):
+        for index, (key, value) in enumerate(data.items()):
             # we need to dynamically build some strings based on the data
             # let's generate some placeholders to execute prepared statements
             update_params += "`{column_name}`=".format(column_name=key)
