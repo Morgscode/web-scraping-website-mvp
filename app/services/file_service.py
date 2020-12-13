@@ -1,5 +1,6 @@
 import os
-import scraps
+
+from scraps import app
 
 
 def setup_data_directory(parsed_target_url):

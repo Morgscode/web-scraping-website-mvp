@@ -1,4 +1,5 @@
 import html
+
 import scraps.auth as auth
 from scraps.Db import Database
 

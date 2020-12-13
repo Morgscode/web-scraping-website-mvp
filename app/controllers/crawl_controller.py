@@ -1,11 +1,22 @@
-import scraps.app.services.file_service as file_service
-import scraps.app.services.web_scraper as web_scraper_service
-import scraps.app.services.location_service as location_service
+from scraps import app
+from scraps.app.models.Crawl import CrawlInstance
+
+from flask import session
 
 
-def process_user_crawl_request(data: dict):
-    return {
-        "status": "success",
-        "statusCode": 200,
-        "message": "winning",
-    }
+def process_user_crawl_request(data: str):
+    crawl = CrawlInstance(data, session['user']['id'])
+    is_valid_crawl_reqeust = crawl.is_valid_url()
+
+    if not is_valid_crawl_reqeust:
+        return {
+            "status": "failed",
+            "stausCode": 400,
+            "message": "Invalid url requested"
+        }, 400
+    else:
+        return {
+            "status": "success",
+            "statusCode": 200,
+            "message": "That url is valid!"
+        }
