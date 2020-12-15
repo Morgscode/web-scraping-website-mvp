@@ -105,6 +105,17 @@ class CrawlInstance:
                 webpage_link, self.user_crawl_options['webpage_url'])
             self.urls.append(webpage_link_href)
 
+    def grab_internal_navigation_links(self):
+        data = web_scraper_service.get_webpage_html(
+            self.user_crawl_options['webpage_url'])
+        soup = web_scraper_service.convert_html_to_soup_obj(data)
+        internal_page_links = web_scraper_service.get_valid_webpage_link_hrefs_in_navs(
+            soup)
+        for webpage_link in internal_page_links:
+            webpage_link_href = location_service.format_href_as_url(
+                webpage_link, self.user_crawl_options['webpage_url'])
+            self.urls.append(webpage_link_href)
+
     def index_webpage_by_url_list(self):
         if len(self.urls) > 0:
             pages_indexed = 0

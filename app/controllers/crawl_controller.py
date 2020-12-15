@@ -24,6 +24,10 @@ def process_user_crawl_request(data: str):
         crawl.grab_internal_page_links()
         crawl.index_webpage_by_url_list()
 
+    if crawl.user_crawl_options['crawl_option'] == "nav-links":
+        crawl.grab_internal_navigation_links()
+        crawl.index_webpage_by_url_list()
+
     return {
         "status": "success!",
         "statusCode": 200,
