@@ -29,6 +29,7 @@ def bind_data_to_session_credentials(data: list):
     if data['user-email'] != '':
         session['user']['email'] = data['user-email']
         user_credentials['user-email'] = data['user-email']
+
     session.modified = True
 
     return user_credentials

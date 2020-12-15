@@ -6,6 +6,10 @@ window.addEventListener("load", () => {
 
   function processCrawlReqeust() {
     if (form.checkValidity()) {
+      showCrawlResponse(
+        "okay, crawling the web now...",
+        (responseClass = "crawl-response__success")
+      );
       const json = convertFormDataToJson(form);
       postFormData(`${window.location.origin}/crawl`, json, form)
         .then((data) => {

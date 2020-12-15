@@ -1,3 +1,4 @@
+import os
 import datetime
 
 import scraps.app.controllers.user_controller as user_controller
@@ -11,6 +12,7 @@ app = Flask("scraps")
 app.config["SECRET_KEY"] = 'dev'
 app.config["FLASK_ENV"] = 'development'
 app.config["PERMANENT_SESSION_LIFETIME"] = datetime.timedelta(minutes=30)
+
 csrf = CSRFProtect(app)
 
 time = datetime.datetime.now()
