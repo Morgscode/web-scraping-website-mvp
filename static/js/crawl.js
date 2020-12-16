@@ -1,6 +1,8 @@
 window.addEventListener("load", () => {
   const form = document.querySelector("#crawl-form");
   const formBtn = document.querySelector("#crawl-form-button");
+  const downloadLink = document.querySelector("#download-link");
+  const downloadLinkWrapper = document.querySelector("#download-wrapper");
   const crawlResponse = document.querySelector("#crawl-response");
   const crawlResponseText = document.querySelector("#crawl-response__text");
 
@@ -17,10 +19,15 @@ window.addEventListener("load", () => {
           showCrawlResponse(data.message, responseClass);
           form.reset();
           console.log(data);
+          showDownloadInterface(data.downloadUrl);
         })
         .catch((error) => {
           console.log(error);
-          showCrawlResponse(error.message, "crawl-response__error", 4000);
+          showCrawlResponse(
+            "there was a problem crawling the site",
+            "crawl-response__error",
+            4000
+          );
         });
     } else {
       showCrawlResponse(
@@ -74,6 +81,11 @@ window.addEventListener("load", () => {
     return statusCode === 200
       ? "crawl-response__success"
       : "crawl-response__error";
+  }
+
+  function showDownloadInterface(url) {
+    downloadLink.href = url;
+    downloadLinkWrapper.classList.add("download-active");
   }
 
   formBtn.addEventListener("click", processCrawlReqeust);

@@ -27,7 +27,6 @@ def validate_web_url(url: str):
         # let's define a function to validate a url
         response = requests.get(url, allow_redirects=True)
         # if we dont get a 200 response, the url isn't valid
-        print(response)
         if response.status_code != 200:
 
             raise Exception("Web-scraper error in vaidate_web_url fn url is {url}...error code: {errcode} error reason is: {errreason}\n".format(

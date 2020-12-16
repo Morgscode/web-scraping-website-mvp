@@ -4,7 +4,7 @@ from scraps.app.models.Crawl import CrawlInstance
 from flask import session
 
 
-def process_user_crawl_request(data: str):
+def process_user_crawl_request(data: dict):
     crawl = CrawlInstance(data, session['user']['id'])
     is_valid_crawl_reqeust = crawl.is_valid_url(
         crawl.user_crawl_options['webpage_url'])
@@ -15,6 +15,8 @@ def process_user_crawl_request(data: str):
             "stausCode": 400,
             "message": "Invalid url requested"
         }, 400
+
+    crawl.prepare_data_dir()
 
     if crawl.user_crawl_options['crawl_option'] == "single-page":
         crawl.index_webpage_content_by_url(
@@ -28,8 +30,11 @@ def process_user_crawl_request(data: str):
         crawl.grab_internal_navigation_links()
         crawl.index_webpage_by_url_list()
 
+    crawl.compress_data_directory()
+
     return {
         "status": "success!",
         "statusCode": 200,
-        "message": "all good boss!"
+        "message": "Successfully crawled {url}!".format(url=crawl.user_crawl_options['webpage_url']),
+        "downloadUrl": '{download}.zip'.format(download=crawl.download_location)
     }

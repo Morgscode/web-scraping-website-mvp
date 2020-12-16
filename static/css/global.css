@@ -17,11 +17,12 @@
   list-style: none;
 }
 
-#crawl-response {
+#crawl-response,
+#download-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
   transform: scaleY(0);
   opacity: 0;
@@ -29,7 +30,16 @@
   border-radius: 6px;
 }
 
-.crawl-response__active {
+#crawl-response__text {
+  font-weight: 300;
+}
+
+#crawl-response {
+  margin-bottom: 45px;
+}
+
+.crawl-response__active,
+.download-active {
   transform: scaleY(1) !important;
   opacity: 1 !important;
   padding: 1.5rem;
@@ -41,4 +51,14 @@
 
 .crawl-response__success {
   background-color: rgba(46, 204, 113, 0.75) !important;
+}
+
+#download-wrapper {
+  background-color: rgba(52, 73, 94, 0.75);
+}
+
+#download-link {
+  color: #fff;
+  font-weight: 300;
+  font-size: 22px;
 }

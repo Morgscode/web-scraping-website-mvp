@@ -1,7 +1,5 @@
 import html
-
 from urllib.parse import urlparse
-
 
 from scraps.Db import Database
 import scraps.app.services.file_service as file_service
@@ -24,6 +22,7 @@ class CrawlInstance:
         self.urls = []
         self.formatted_hrefs = []
         self.pages_crawled = 0
+        self.crawl_errors = 0
         self.download_location = ''
 
     def make_model(self):
@@ -43,6 +42,14 @@ class CrawlInstance:
             url)
         parsed_target_url = urlparse(formatted_target_url)
         return parsed_target_url
+
+    def prepare_data_dir(self):
+        # we'll also need a parse version of the full url
+        parsed_target_url = self.retrieve_and_parse_url(
+            self.user_crawl_options['webpage_url'])
+        # lets create a dirctory for data
+        self.download_location = file_service.setup_data_directory(
+            parsed_target_url, self.user_id)
 
     def index_initial_page_as_soup(self, url: str):
         data = web_scraper_service.get_webpage_html(
@@ -76,15 +83,13 @@ class CrawlInstance:
             # extract all the text from this page
             page_html_text_content = web_scraper_service.convert_soup_to_text(
                 page_html_soup)
-        # we'll also need a parse version of the full url
-        parsed_target_url = self.retrieve_and_parse_url(url)
-        # lets create a dirctory for data
-        self.download_location = file_service.setup_data_directory(
-            parsed_target_url, self.user_id)
+
         # let's generate a formatted path in our file system for this webpage
         formatted_path = location_service.format_path_as_file_location(url)
         # let's write the retieved text to a file and store it's location
         # the index will be 0 or more, this will order the files in the directory
+        parsed_target_url = urlparse(self.user_crawl_options['webpage_url'])
+
         new_file_loaction = file_service.write_text_to_file(
             page_html_text_content, formatted_path, index, parsed_target_url, self.user_id)
         # let's strip all of the unneeded whitespace, and tidy it up
@@ -118,8 +123,7 @@ class CrawlInstance:
 
     def index_webpage_by_url_list(self):
         if len(self.urls) > 0:
-            pages_indexed = 0
-            indexing_errors = 0
+
             # if there are no links in a nav, just index the content on that page
             self.index_webpage_content_by_url(
                 self.user_crawl_options['webpage_url'], 0)
@@ -130,6 +134,9 @@ class CrawlInstance:
                     # lets sleep for a second to introduce a crawl delay
                     time.sleep(1)
                 except:
-                    indexing_errors += 1
+                    self.crawl_errors += 1
                 else:
-                    pages_indexed += 1
+                    self.pages_crawled += 1
+
+    def compress_data_directory(self):
+        file_service.compress_directory(self.download_location)

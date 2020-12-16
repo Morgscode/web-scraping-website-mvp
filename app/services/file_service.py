@@ -1,12 +1,14 @@
 import os
+import zipfile
 
 
 def setup_data_directory(parsed_target_url, id: int):
+    data_dir = 'public/' + str(id) + "_" + str(parsed_target_url.netloc)
     # let's create a directory for data
     if not os.path.exists('public/' + str(id) + "_" + str(parsed_target_url.netloc)):
-        data_dir = 'public/' + str(id) + "_" + str(parsed_target_url.netloc)
         os.makedirs(data_dir)
-        return data_dir
+
+    return data_dir
 
 
 def write_text_to_file(web_page_text: str, formatted_path: str,  counter: int, parsed_target_url, user_id: int):
@@ -33,3 +35,11 @@ def strip_whitespace_from_file(text_file_location: str):
     # let's join the array into a string, seperating each element with a new link
     formatted_text_content = "\n".join(stripped_text)
     return formatted_text_content
+
+
+def compress_directory(dir: str):
+    with zipfile.ZipFile('{folder}.zip'.format(folder=dir), 'w') as zip:
+        for file in os.listdir(dir):
+            zip.write(os.path.join(dir, file))
+
+    return zip
