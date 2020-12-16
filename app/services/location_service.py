@@ -22,21 +22,19 @@ def manage_domain_scheme(target_domain: str):
 
 
 def validate_web_url(url: str):
-    # let's define a function to validate a url
-    response = requests.get(url, allow_redirects=False)
 
     try:
+        # let's define a function to validate a url
+        response = requests.get(url, allow_redirects=True)
         # if we dont get a 200 response, the url isn't valid
         if response.status_code != 200:
 
-            raise Exception("Web-scraper error in vaidate_web_url fn url is {url}...error code: {errcode} error reason is: {errreason}\n".format(url=url,
-                                                                                                                                                 errcode=response.status_code, errreason=response.reason))
+            raise Exception("Web-scraper error in vaidate_web_url fn url is {url}...error code: {errcode} error reason is: {errreason}\n".format(
+                url=url, errcode=response.status_code, errreason=response.reason))
 
     except Exception as e:
-        # this will catch 404s, 500s etc, we'll write to logs and exit
-        with open("./web-scraper-logs/error.txt", "a+") as error_file:
-            error_file.write(str(e))
-
+        # lets return false to let the controller know its not a valid url
+        print(e)
         return False
     else:
         return True

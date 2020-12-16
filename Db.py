@@ -56,7 +56,6 @@ class Database:
 
         sql_prepared = "INSERT INTO `%s` (%s) VALUES (%s)" % (
             table, columns, placeholders)
-        print(sql_prepared)
 
         try:
             self.cursor.execute(sql_prepared, values)
@@ -87,11 +86,9 @@ class Database:
 
         sql_prepared = "UPDATE `%s` SET %s WHERE `id`=%s" % (
             table, update_params, ':id')
-
         try:
             self.cursor.execute(sql_prepared, values)
             self.conn.commit()
-            return True
         except sqlite3.Error as e:
             print(e)
             return False

@@ -16,8 +16,15 @@
 
 {% block content %}
 <p class="heading-secondary p-4">This is where the magic happens</p>
-<div id="crawl-response">
-  <h4 id="crawl-response__text"></h4>
+<div class="crawl-response__wrapper p-4">
+  <div id="crawl-response">
+    <h4 id="crawl-response__text"></h4>
+  </div>
+  <a href="" id="download-link" download>
+    <div class="download-location__wrapper" id="download-wrapper">
+      Download your files here
+    </div>
+  </a>
 </div>
 <form method="POST" class="p-4 mb-4" id="crawl-form">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />

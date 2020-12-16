@@ -1,4 +1,5 @@
 import bcrypt
+
 from flask import session
 
 
@@ -24,9 +25,10 @@ def bind_data_to_session_credentials(data: list):
 
     if data['new-password'] != '':
         session['user']['password'] = data['new-password']
-
+        user_credentials['user-password'] = data['new-password']
     if data['user-email'] != '':
         session['user']['email'] = data['user-email']
+        user_credentials['user-email'] = data['user-email']
 
     session.modified = True
 

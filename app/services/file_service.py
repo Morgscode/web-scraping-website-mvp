@@ -1,29 +1,21 @@
 import os
-import scraps
+import zipfile
 
 
-def setup_data_directory(parsed_target_url):
+def setup_data_directory(parsed_target_url, id: int):
+    data_dir = 'public/' + str(id) + "_" + str(parsed_target_url.netloc)
     # let's create a directory for data
-    if not os.path.exists(scraps.instance_path + '/public/' + str(parsed_target_url.netloc)):
-        os.makedirs(scraps.instance_path + '/public/' +
-                    str(parsed_target_url.netloc))
+    if not os.path.exists('public/' + str(id) + "_" + str(parsed_target_url.netloc)):
+        os.makedirs(data_dir)
+
+    return data_dir
 
 
-def setup_error_logs():
-    # let's create a directory for logs
-    if not os.path.exists(scraps.instance_path + "/logs"):
-        os.makedirs(scraps.instance_path + "/logs")
-
-
-def write_text_to_file(web_page_text: str, formatted_path: str,  counter: int, parsed_target_url: str):
-
+def write_text_to_file(web_page_text: str, formatted_path: str,  counter: int, parsed_target_url, user_id: int):
     # we use the counter to map the files in the directory to the same cacnonical order as the nav
-
-    text_file_location = scraps.instance_path + "/public/{domain}/{pgindex}_{fmtdpath}.txt".format(
-        domain=parsed_target_url.netloc, pgindex=str(counter), fmtdpath=formatted_path)
-
+    text_file_location = "public/{id}_{domain}/{pgindex}_{fmtdpath}.txt".format(id=str(user_id),
+                                                                                domain=parsed_target_url.netloc, pgindex=str(counter), fmtdpath=formatted_path)
     # lets open/create a new file called in the website data directory and overwrite its contents if its been indexed before
-
     with open(text_file_location, "w") as text_file:
         # lets write the text content to the new file we created
         text_file.write(web_page_text)
@@ -33,17 +25,21 @@ def write_text_to_file(web_page_text: str, formatted_path: str,  counter: int, p
 
 def strip_whitespace_from_file(text_file_location: str):
     stripped_text = []
-
     with open(text_file_location, "r") as parsed_text_file:
-
         for line in parsed_text_file:
             # let's strip all of the leading and trailing whitespace from each line
             line = line.rstrip().lstrip()
             # if the line of text isn't empty, push to our return value
             if line:
                 stripped_text.append(line)
-
     # let's join the array into a string, seperating each element with a new link
     formatted_text_content = "\n".join(stripped_text)
-
     return formatted_text_content
+
+
+def compress_directory(dir: str):
+    with zipfile.ZipFile('{folder}.zip'.format(folder=dir), 'w') as zip:
+        for file in os.listdir(dir):
+            zip.write(os.path.join(dir, file))
+
+    return zip
