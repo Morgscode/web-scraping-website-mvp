@@ -42,7 +42,7 @@ def hash_password(password: str):
 
 
 def check_hashed_password(password: str, hashed_password: str):
-    if bcrypt.checkpw(password.encode('utf-8'), hashed_password):
+    if bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8')):
         return True
     else:
         return False

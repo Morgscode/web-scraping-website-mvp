@@ -61,6 +61,7 @@ window.addEventListener("load", () => {
 
   function showCrawlResponse(responseText, responseClass, responseTimeout) {
     hideCrawlResponse();
+
     crawlResponse.classList.add(responseClass);
     crawlResponseText.innerHTML = responseText;
     crawlResponse.classList.add("crawl-response__active");

@@ -1,7 +1,7 @@
 import html
 from urllib.parse import urlparse
 
-from scraps.Db import Database
+from scraps.Db import MySQLDatabase
 import scraps.app.services.file_service as file_service
 import scraps.app.services.web_scraper as web_scraper_service
 import scraps.app.services.location_service as location_service
@@ -10,7 +10,7 @@ import scraps.app.services.location_service as location_service
 class CrawlInstance:
     def __init__(self, user_data: dict, user_id: int):
         self.table = 'user_crawls'
-        self.db = Database('scraps_local')
+        self.db = MySQLDatabase()
         self.make_model()
         self.user_id = user_id
         self.user_crawl_options = {
@@ -27,8 +27,8 @@ class CrawlInstance:
 
     def make_model(self):
         self.db.cursor.execute(
-            "CREATE TABLE IF NOT EXISTS {table} (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, webpage_url text, crawl_option text, content_option text, pages_crawled INTEGER, user_id INTEGER, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)".format(table=self.table))
-        self.db.conn.commit()
+            "CREATE TABLE IF NOT EXISTS {table} (id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT, webpage_url VARCHAR(255), crawl_option VARCHAR(255), content_option VARCHAR(255), pages_crawled INTEGER, user_id INTEGER, download_location VARCHAR(255), created_at DATETIME DEFAULT CURRENT_TIMESTAMP)".format(table=self.table))
+        self.db.dbconn.commit()
 
     def is_valid_url(self, url: str):
         response = location_service.validate_web_url(url)

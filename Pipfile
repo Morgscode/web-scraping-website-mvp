@@ -9,6 +9,8 @@ bcrypt = "*"
 requests = "*"
 beautifulsoup4 = "*"
 flask-wtf = "*"
+python-dotenv = "*"
+mysql-connector-python = "*"
 
 [dev-packages]
 autopep8 = "*"

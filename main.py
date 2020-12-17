@@ -3,14 +3,15 @@ import datetime
 
 import scraps.app.controllers.user_controller as user_controller
 import scraps.app.controllers.crawl_controller as crawl_controller
-from scraps.Db import Database
+from scraps.Db import MySQLDatabase
 
 from flask import Flask, request, redirect, url_for, render_template, session, g, flash
 from flask_wtf.csrf import CSRFProtect
 
 app = Flask("scraps")
-app.config["SECRET_KEY"] = 'dev'
-app.config["FLASK_ENV"] = 'development'
+app.config["FLASK_APP"] = os.environ.get("FLASK_APP")
+app.config["FLASK_ENV"] = os.environ.get("FLASK_ENV")
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 app.config["PERMANENT_SESSION_LIFETIME"] = datetime.timedelta(minutes=30)
 
 csrf = CSRFProtect(app)
