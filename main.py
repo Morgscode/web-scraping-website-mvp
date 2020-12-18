@@ -5,7 +5,7 @@ import scraps.app.controllers.user_controller as user_controller
 import scraps.app.controllers.crawl_controller as crawl_controller
 from scraps.Db import MySQLDatabase
 
-from flask import Flask, request, redirect, url_for, render_template, session, g, flash
+from flask import Flask, request, redirect, url_for, render_template, session, g, flash, send_from_directory
 from flask_wtf.csrf import CSRFProtect
 
 app = Flask("scraps")
@@ -101,3 +101,15 @@ def crawl():
             return render_template("crawl-form.jinja.html")
     else:
         return render_template("crawl-form.jinja.html")
+
+
+@app.route('/public/<path:filename>', methods=["GET"])
+def download(filename):
+    if 'user' not in session:
+        return {
+            "status": "failed",
+            "statusCode": 401,
+            "message": "not authorized"
+        }, 401
+    else:
+        return send_from_directory(directory="public/", filename=filename, as_attachment=True)
