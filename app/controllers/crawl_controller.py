@@ -57,5 +57,6 @@ def get_all_user_crawls(data=False):
         crawl.pop("id", None)
         crawl.pop("download_location", None)
         crawl.pop("crawl_errors", None)
+        crawl.pop("files_deleted", None)
 
     return crawls
