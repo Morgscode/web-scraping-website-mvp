@@ -10,15 +10,15 @@ window.addEventListener("load", () => {
     if (form.checkValidity()) {
       showCrawlResponse(
         "okay, crawling the web now...",
-        (responseClass = "crawl-response__success")
+        "crawl-response__crawling"
       );
       const json = convertFormDataToJson(form);
       postFormData(`${window.location.origin}/crawl`, json, form)
         .then((data) => {
           let responseClass = assignResponseClassByStatusCode(data.statusCode);
           showCrawlResponse(data.message, responseClass);
-          form.reset();
           showDownloadInterface(data.downloadUrl);
+          form.reset();
         })
         .catch((error) => {
           showCrawlResponse(
@@ -59,7 +59,6 @@ window.addEventListener("load", () => {
 
   function showCrawlResponse(responseText, responseClass, responseTimeout) {
     hideCrawlResponse();
-
     crawlResponse.classList.add(responseClass);
     crawlResponseText.innerHTML = responseText;
     crawlResponse.classList.add("crawl-response__active");

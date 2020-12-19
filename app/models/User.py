@@ -54,8 +54,6 @@ class User:
         user_row = self.db.fetch_single(
             self.table, user_columns[0], user_values[0])
 
-        print(user_row)
-
         if user_row:
             is_user_password = auth.check_hashed_password(
                 self.credentials['user_password'], user_row["user_password"])
