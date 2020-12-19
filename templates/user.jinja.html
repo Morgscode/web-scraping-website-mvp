@@ -38,4 +38,13 @@
     </form>
   </div>
 </div>
+<article class="p-4">
+  <p class="heading-secondary">Your crawl history</p>
+  <table>
+    {% for crawl_id, crawl_url, crawl_option, content_option, pages_crawled, crawl_errors, user_id, download_location,
+    crawl_time in crawls%}
+    <li>{{ crawl }}</li>
+    {% endfor %}
+    <table>
+</article>
 {% endblock %}

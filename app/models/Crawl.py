@@ -13,12 +13,13 @@ class CrawlInstance:
         self.db = MySQLDatabase()
         self.make_model()
         self.user_id = user_id
-        self.user_crawl_options = {
-            'webpage_url': location_service.manage_domain_scheme(
-                html.escape(user_data['webpage-url'])),
-            'crawl_option': html.escape(user_data['crawl-option']),
-            'content_option': html.escape(user_data['content-option'])
-        }
+        if user_data:
+            self.user_crawl_options = {
+                'webpage_url': location_service.manage_domain_scheme(
+                    html.escape(user_data['webpage-url'])),
+                'crawl_option': html.escape(user_data['crawl-option']),
+                'content_option': html.escape(user_data['content-option'])
+            }
         self.urls = []
         self.formatted_hrefs = []
         self.pages_crawled = 0

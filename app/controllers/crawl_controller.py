@@ -40,3 +40,12 @@ def process_user_crawl_request(data: dict):
         "message": "Successfully crawled {url}... scraped {pgcount} pages into text files with {errcount} errors".format(url=crawl.user_crawl_options['webpage_url'], pgcount=crawl.pages_crawled, errcount=crawl.crawl_errors),
         "downloadUrl": '{download}.zip'.format(download=crawl.download_location)
     }
+
+
+def get_all_user_crawls(data=False):
+    crawl = CrawlInstance(data, session['user']['id'])
+    user_crawl_data = {
+        "user_id": crawl.user_id
+    }
+    crawls = crawl.db.fetch_all_by_key(crawl.table, user_crawl_data)
+    return crawls
