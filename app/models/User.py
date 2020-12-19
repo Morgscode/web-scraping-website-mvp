@@ -1,7 +1,7 @@
 import html
 
 import scraps.auth as auth
-from scraps.Db import Database
+from scraps.Db import MySQLDatabase
 
 
 class User:
@@ -11,24 +11,18 @@ class User:
             'user_password': html.escape(user_data['user-password'])
         }
         self.is_logged_in = False
-        self.db = Database('scraps_local')
+        self.db = MySQLDatabase()
         self.table = 'users'
         self.make_model()
 
     def make_model(self):
         self.db.cursor.execute(
-            "CREATE TABLE IF NOT EXISTS {table} (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, user_email text, user_password text, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)".format(table=self.table))
-        self.db.conn.commit()
-
-    def get_user_email(self):
-        return self.credentials['user_email']
-
-    def get_user_password(self):
-        return self.credentials['user_password']
+            "CREATE TABLE IF NOT EXISTS {table} (id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT, user_email VARCHAR(255), user_password VARCHAR(255), created_at DATETIME DEFAULT CURRENT_TIMESTAMP)".format(table=self.table))
+        self.db.dbconn.commit()
 
     def register_user(self):
-        hased_pw = auth.hash_password(self.credentials['user_password'])
-        self.credentials['user_password'] = hased_pw
+        self.credentials['user_password'] = auth.hash_password(
+            self.credentials['user_password'])
         try:
             self.db.insert_single(self.table, self.credentials)
             return True

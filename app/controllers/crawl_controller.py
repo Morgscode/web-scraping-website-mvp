@@ -32,9 +32,11 @@ def process_user_crawl_request(data: dict):
 
     crawl.compress_data_directory()
 
+    crawl.log_crawl_to_db(session['user']['id'])
+
     return {
         "status": "success!",
         "statusCode": 200,
-        "message": "Successfully crawled {url}!".format(url=crawl.user_crawl_options['webpage_url']),
+        "message": "Successfully crawled {url}... scraped {pgcount} pages into text files with {errcount} errors".format(url=crawl.user_crawl_options['webpage_url'], pgcount=crawl.pages_crawled, errcount=crawl.crawl_errors),
         "downloadUrl": '{download}.zip'.format(download=crawl.download_location)
     }
