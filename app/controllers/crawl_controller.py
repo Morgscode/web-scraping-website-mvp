@@ -53,5 +53,4 @@ def get_all_user_crawls(data=False):
         crawl.pop("id", None)
         crawl.pop("download_location", None)
         crawl.pop("crawl_errors", None)
-    print(crawls)
     return crawls

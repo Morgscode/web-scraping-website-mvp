@@ -11,6 +11,7 @@ beautifulsoup4 = "*"
 flask-wtf = "*"
 python-dotenv = "*"
 mysql-connector-python = "*"
+gunicorn = "*"
 
 [dev-packages]
 autopep8 = "*"
