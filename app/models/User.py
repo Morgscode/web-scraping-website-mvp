@@ -1,7 +1,7 @@
 import html
 
-import scraps.auth as auth
-from scraps.Db import MySQLDatabase
+import auth as auth
+from Db import MySQLDatabase
 
 
 class User:

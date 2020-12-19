@@ -1,9 +1,9 @@
 import os
 import datetime
 
-import scraps.app.controllers.user_controller as user_controller
-import scraps.app.controllers.crawl_controller as crawl_controller
-from scraps.Db import MySQLDatabase
+from app.controllers.user_controller import *
+from app.controllers.crawl_controller import *
+from Db import MySQLDatabase
 
 from flask import Flask, request, redirect, url_for, render_template, session, g, flash, send_from_directory
 from flask_wtf.csrf import CSRFProtect
@@ -43,7 +43,7 @@ def show_app_index():
 def register():
     if request.method == "POST":
         if request.form["user-email"] and request.form["user-password"]:
-            return user_controller.user_register(request.form)
+            return user_register(request.form)
         else:
             flash("Invalid form submission - try again", 'danger')
             return render_template("register.jinja.html")
@@ -60,15 +60,14 @@ def users(id):
         if request.form['action'] == "_update":
             return render_template("user-update.jinja.html")
         elif request.form['action'] == "_patch" and request.form['user-password']:
-            return user_controller.user_update(session['user']['id'], request.form)
+            return user_update(session['user']['id'], request.form)
         elif request.form['action'] == "_delete":
-            return user_controller.user_delete(session['user']['id'])
+            return user_delete(session['user']['id'])
         else:
             flash("invalid request", "danger")
             return render_template("user.jinja.html")
     else:
-        user_crawls = crawl_controller.get_all_user_crawls()
-        print(user_crawls)
+        user_crawls = get_all_user_crawls()
         return render_template("user.jinja.html", crawls=user_crawls)
 
 
@@ -76,7 +75,7 @@ def users(id):
 def login():
     if request.method == "POST":
         if request.form["user-email"] and request.form["user-password"]:
-            return user_controller.user_login(request.form)
+            return user_login(request.form)
         else:
             flash("Invalid login attempt", "danger")
             return render_template("login.jinja.html")
@@ -86,7 +85,7 @@ def login():
 
 @app.route("/logout", methods=["GET"])
 def logout():
-    return user_controller.user_logout()
+    return user_logout()
 
 
 @app.route("/crawl", methods=["GET", "POST"])
@@ -96,7 +95,7 @@ def crawl():
     if request.method == "POST":
         if request.is_json:
             json = request.get_json(request)
-            return crawl_controller.process_user_crawl_request(json)
+            return process_user_crawl_request(json)
         else:
             flash(
                 "that request wasn't quite what we were expecting. try using the form", "danger")

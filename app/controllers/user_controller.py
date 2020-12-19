@@ -1,7 +1,7 @@
 import html
 
-import scraps.auth as auth
-from scraps.app.models.User import User
+import auth as auth
+from app.models.User import User
 
 
 from flask import request, render_template, session, redirect, url_for, flash, g

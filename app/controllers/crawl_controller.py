@@ -1,4 +1,4 @@
-from scraps.app.models.Crawl import CrawlInstance
+from app.models.Crawl import CrawlInstance
 
 from flask import session
 

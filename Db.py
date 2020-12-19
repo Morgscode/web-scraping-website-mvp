@@ -128,7 +128,7 @@ class MySQLDatabase:
     def delete_single(self, table: str, id: int):
         try:
             self.cursor.execute(
-                "DELETE FROM {table} WHERE `id`=?".format(table=table), [id, ])
+                "DELETE FROM {table} WHERE `id`=%s".format(table=table), [id, ])
             self.dbconn.commit()
         except mysql.connector.Error as e:
             print(e)
