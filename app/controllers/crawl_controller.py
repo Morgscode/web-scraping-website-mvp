@@ -48,4 +48,10 @@ def get_all_user_crawls(data=False):
         "user_id": crawl.user_id
     }
     crawls = crawl.db.fetch_all_by_key(crawl.table, user_crawl_data)
+    for crawl in crawls:
+        crawl.pop("user_id", None)
+        crawl.pop("id", None)
+        crawl.pop("download_location", None)
+        crawl.pop("crawl_errors", None)
+    print(crawls)
     return crawls
