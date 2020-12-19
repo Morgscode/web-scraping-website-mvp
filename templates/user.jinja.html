@@ -38,6 +38,7 @@
     </form>
   </div>
 </div>
+{% if crawls %}
 <article class="p-4">
   <p class="heading-secondary mb-4">Your crawl history</p>
   <table class="crawl-table table">
@@ -72,4 +73,5 @@
   </table>
 
 </article>
+{% endif %}
 {% endblock %}
