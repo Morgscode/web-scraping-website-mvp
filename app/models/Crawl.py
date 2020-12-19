@@ -27,7 +27,7 @@ class CrawlInstance:
 
     def make_model(self):
         self.db.cursor.execute(
-            "CREATE TABLE IF NOT EXISTS {table} (id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT, webpage_url VARCHAR(255), crawl_option VARCHAR(255), content_option VARCHAR(255), pages_crawled INTEGER, user_id INTEGER, download_location VARCHAR(255), created_at DATETIME DEFAULT CURRENT_TIMESTAMP)".format(table=self.table))
+            "CREATE TABLE IF NOT EXISTS {table} (id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT, webpage_url VARCHAR(255), crawl_option VARCHAR(255), content_option VARCHAR(255), pages_crawled INTEGER, crawl_errors INTEGER,user_id INTEGER, download_location VARCHAR(255), created_at DATETIME DEFAULT CURRENT_TIMESTAMP)".format(table=self.table))
         self.db.dbconn.commit()
 
     def is_valid_url(self, url: str):
@@ -132,11 +132,23 @@ class CrawlInstance:
                     self.index_webpage_content_by_url(
                         link, index + 1)
                     # lets sleep for a second to introduce a crawl delay
-                    time.sleep(1)
+                    self.pages_crawled += 1
                 except:
                     self.crawl_errors += 1
-                else:
-                    self.pages_crawled += 1
+
+            return self
 
     def compress_data_directory(self):
         file_service.compress_directory(self.download_location)
+
+    def log_crawl_to_db(self, user_id):
+        crawl = {
+            "webpage_url": self.user_crawl_options["webpage_url"],
+            "crawl_option": self.user_crawl_options["crawl_option"],
+            "content_option": self.user_crawl_options["content_option"],
+            "pages_crawled": self.pages_crawled,
+            "crawl_errors": self.crawl_errors,
+            "user_id": user_id,
+            "download_location": self.download_location,
+        }
+        self.db.insert_single(self.table, crawl)

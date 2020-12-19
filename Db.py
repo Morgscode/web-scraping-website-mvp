@@ -6,7 +6,6 @@ import mysql.connector
 
 class MySQLDatabase:
     def __init__(self):
-
         try:
             self.dbconn = mysql.connector.connect(
                 database=os.environ.get("DB_NAME"),
