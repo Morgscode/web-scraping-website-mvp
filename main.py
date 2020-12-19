@@ -68,6 +68,7 @@ def users(id):
             return render_template("user.jinja.html")
     else:
         user_crawls = crawl_controller.get_all_user_crawls()
+        print(user_crawls)
         return render_template("user.jinja.html", crawls=user_crawls)
 
 
