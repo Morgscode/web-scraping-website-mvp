@@ -43,8 +43,6 @@ class MySQLDatabase:
         sql_prepared = "SELECT * FROM `%s` WHERE `%s`=%s" % (
             table, column, placeholder)
 
-        print(sql_prepared)
-
         try:
             query = self.cursor.execute(sql_prepared, [value, ])
             rows = self.cursor.fetchall()

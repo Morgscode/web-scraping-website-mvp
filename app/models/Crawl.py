@@ -8,17 +8,17 @@ import scraps.app.services.location_service as location_service
 
 
 class CrawlInstance:
-    def __init__(self, user_data: dict, user_id: int):
+    def __init__(self, crawl_data: dict, user_id: int):
         self.table = 'user_crawls'
         self.db = MySQLDatabase()
         self.make_model()
         self.user_id = user_id
-        if user_data:
+        if crawl_data:
             self.user_crawl_options = {
                 'webpage_url': location_service.manage_domain_scheme(
-                    html.escape(user_data['webpage-url'])),
-                'crawl_option': html.escape(user_data['crawl-option']),
-                'content_option': html.escape(user_data['content-option'])
+                    html.escape(crawl_data['webpage-url'])),
+                'crawl_option': html.escape(crawl_data['crawl-option']),
+                'content_option': html.escape(crawl_data['content-option'])
             }
         self.urls = []
         self.formatted_hrefs = []
@@ -28,7 +28,7 @@ class CrawlInstance:
 
     def make_model(self):
         self.db.cursor.execute(
-            "CREATE TABLE IF NOT EXISTS {table} (id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT, webpage_url VARCHAR(255), crawl_option VARCHAR(255), content_option VARCHAR(255), pages_crawled INTEGER, crawl_errors INTEGER,user_id INTEGER, download_location VARCHAR(255), created_at DATETIME DEFAULT CURRENT_TIMESTAMP)".format(table=self.table))
+            "CREATE TABLE IF NOT EXISTS {table} (id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT, webpage_url VARCHAR(255), crawl_option VARCHAR(255), content_option VARCHAR(255), pages_crawled INTEGER, crawl_errors INTEGER,user_id INTEGER, download_location VARCHAR(255), created_at DATETIME DEFAULT CURRENT_TIMESTAMP, files_deleted tinyint(1) DEFAULT 0)".format(table=self.table))
         self.db.dbconn.commit()
 
     def is_valid_url(self, url: str):
