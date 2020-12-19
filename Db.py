@@ -27,6 +27,32 @@ class MySQLDatabase:
             print(e)
             return False
 
+    def fetch_all_by_key(self, table, data: dict):
+        column = ""
+        placeholders = "%s"
+        key_value = ""
+
+        for key, value in data.items():
+            # we need to dynamically build some strings based on the data
+            # let's generate some placeholders to execute prepared statements
+            column = "{column_name}".format(column_name=key)
+            placeholder = "%s"
+            # let's fill the insert values into a list to use with execute
+            key_value = value
+
+        sql_prepared = "SELECT * FROM `%s` WHERE `%s`=%s" % (
+            table, column, placeholder)
+
+        print(sql_prepared)
+
+        try:
+            query = self.cursor.execute(sql_prepared, [value, ])
+            rows = self.cursor.fetchall()
+            return rows
+        except mysql.connector.Error as e:
+            print(e)
+            return False
+
     def fetch_single(self, table: str, column_name: str, column_value):
         sql_formatted_value = "'{value}'".format(value=column_value)
         placeholder = "%s".format(column_name=column_name)
@@ -53,7 +79,7 @@ class MySQLDatabase:
             # we need to dynamically build some strings based on the data
             # let's generate some placeholders to execute prepared statements
             columns += "`{column_name}`".format(column_name=key)
-            placeholders += "%s".format(column_name=key)
+            placeholders += "%s"
             # let's fill the insert values into a list to use with execute
             values.append(value)
 
