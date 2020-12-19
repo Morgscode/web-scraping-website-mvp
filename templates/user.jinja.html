@@ -20,7 +20,7 @@
 </article>
 <div class="row p-4">
   <div class="col-md-6 col-sm-12">
-    <form action="{{ url_for('users', id=session['user']['id']) }}" method="POST">
+    <form action="{{ url_for('users', id=session['user']['id']) }}" method="POST" class="mb-4">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
       <input type="hidden" name="action" value="_update">
       <button type="submit" class="form-control form-control-lg btn btn-secondary">
@@ -29,7 +29,7 @@
     </form>
   </div>
   <div class="col-md-6 col-sm-12">
-    <form action="{{ url_for('users', id=session['user']['id']) }}" method="POST">
+    <form action="{{ url_for('users', id=session['user']['id']) }}" method="POST" class="mb-4">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
       <input type="hidden" name="action" value="_delete">
       <button type="submit" class="form-control form-control-lg btn btn-danger">
@@ -41,7 +41,7 @@
 {% if crawls %}
 <article class="p-4">
   <p class="heading-secondary mb-4">Your crawl history</p>
-  <table class="crawl-table table">
+  <table class="crawl-table table table-bordered table-responsive-md">
     <thead class="thead-dark">
       <tr>
         <th scope="col">
