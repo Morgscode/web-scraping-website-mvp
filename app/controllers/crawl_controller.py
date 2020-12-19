@@ -18,8 +18,16 @@ def process_user_crawl_request(data: dict):
     crawl.prepare_data_dir()
 
     if crawl.user_crawl_options['crawl_option'] == "single-page":
-        crawl.index_webpage_content_by_url(
-            crawl.user_crawl_options['webpage_url'], 0)
+        try:
+            crawl.index_webpage_content_by_url(
+                crawl.user_crawl_options['webpage_url'], 0)
+            crawl.pages_crawled += 1
+        except:
+            return {
+                "status": "failed!",
+                "statusCode": 404,
+                "message": "there was a problem crawling {url}".format(url=crawl.user_crawl_options['webpage_url'])
+            }
 
     if crawl.user_crawl_options['crawl_option'] == "internal-links":
         crawl.grab_internal_page_links()

@@ -9,11 +9,7 @@ import requests
 
 
 def manage_domain_scheme(target_domain: str):
-    # lets strip any trailing slashes
-    if target_domain[-1] == "/":
-        target_domain = target_domain[:-1]
-
-      # we need a function to add a scheme to the url is one if not present.
+    # we need a function to add a scheme to the url is one if not present.
     # this regexp will check for a scheme
     scheme_regexp = re.compile(r'^https?://')
 
