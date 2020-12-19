@@ -1,3 +1,3 @@
-from scraps.main import app
-if __name__ == "scraps":
-    app.run()
+from flask import current_app as app
+
+app.run()

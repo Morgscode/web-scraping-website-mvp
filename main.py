@@ -67,8 +67,8 @@ def users(id):
             flash("invalid request", "danger")
             return render_template("user.jinja.html")
     else:
-        user_crawls = crawl_controller.get_all_user_crawls()
-        return render_template("user.jinja.html", crawls=user_crawls)
+        user_crawls = crawl_controller.get_all_user_crawls(data=False)
+        return render_template("user.jinja.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
