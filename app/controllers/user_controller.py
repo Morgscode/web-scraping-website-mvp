@@ -42,7 +42,6 @@ def user_update(id: int, data: dict):
     if data['user-password'] == session['user']['password']:
         user_credentials = auth.bind_data_to_session_credentials(data)
         user = User(user_credentials)
-        print(user.credentials)
         user.update_user(id)
         return redirect(url_for('users', id=id))
     else:

@@ -87,6 +87,7 @@ window.addEventListener("load", () => {
   function showDownloadInterface(url) {
     downloadLink.href = url;
     downloadLinkWrapper.classList.add("download-active");
+    downloadLinkWrapper.scrollIntoView();
   }
 
   formBtn.addEventListener("click", processCrawlReqeust);

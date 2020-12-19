@@ -81,7 +81,7 @@ class MySQLDatabase:
             # we need to dynamically build some strings based on the data
             # let's generate some placeholders to execute prepared statements
             update_params += "`{column_name}`=".format(column_name=key)
-            update_params += "%s".format(column_name=key)
+            update_params += "%s"
             # let's fill the insert values into a list to use with execute
             values.append(value)
 
@@ -93,7 +93,7 @@ class MySQLDatabase:
         values.append(id)
 
         sql_prepared = "UPDATE `%s` SET %s WHERE `id`=%s" % (
-            table, update_params, ':id')
+            table, update_params, '%s')
         try:
             self.cursor.execute(sql_prepared, values)
             self.dbconn.commit()
