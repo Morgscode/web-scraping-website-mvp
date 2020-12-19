@@ -14,7 +14,7 @@ class MySQLDatabase:
                 user=os.environ.get("DB_USER"),
                 password=os.environ.get("DB_PASS")
             )
-            self.cursor = self.dbconn.cursor()
+            self.cursor = self.dbconn.cursor(dictionary=True)
         except mysql.connector.Error as e:
             print(e)
 

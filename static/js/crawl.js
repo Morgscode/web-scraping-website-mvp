@@ -18,11 +18,9 @@ window.addEventListener("load", () => {
           let responseClass = assignResponseClassByStatusCode(data.statusCode);
           showCrawlResponse(data.message, responseClass);
           form.reset();
-          console.log(data);
           showDownloadInterface(data.downloadUrl);
         })
         .catch((error) => {
-          console.log(error);
           showCrawlResponse(
             "there was a problem crawling the site",
             "crawl-response__error",

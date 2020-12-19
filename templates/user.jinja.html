@@ -38,13 +38,40 @@
     </form>
   </div>
 </div>
+{% if crawls %}
 <article class="p-4">
-  <p class="heading-secondary">Your crawl history</p>
-  <table>
-    {% for crawl_id, crawl_url, crawl_option, content_option, pages_crawled, crawl_errors, user_id, download_location,
-    crawl_time in crawls%}
-    <li>{{ crawl }}</li>
-    {% endfor %}
-    <table>
+  <p class="heading-secondary mb-4">Your crawl history</p>
+  <table class="crawl-table table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">
+          crawl domain
+        </th>
+        <th scope="col">
+          crawl option
+        </th>
+        <th scope="col">
+          content option
+        </th>
+        <th scope="col">
+          pages crawled
+        </th>
+        <th scope="col">
+          date and time
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for crawl in crawls %}
+      <tr>
+        {% for key, value in crawl.items() %}
+        <td>{{ value }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
 </article>
+{% endif %}
 {% endblock %}
