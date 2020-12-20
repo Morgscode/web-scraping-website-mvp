@@ -7,7 +7,6 @@ window.addEventListener("load", () => {
   const crawlResponseText = document.querySelector("#crawl-response__text");
 
   function processCrawlReqeust(e) {
-    console.log(e);
     if (e.target && e.target.id !== "scraps-form-btn") {
       return false;
     }
