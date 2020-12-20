@@ -3,7 +3,6 @@ import datetime
 
 from app.controllers.user_controller import *
 from app.controllers.crawl_controller import *
-from Db import MySQLDatabase
 
 from flask import Flask, request, redirect, url_for, render_template, session, g, flash, send_from_directory
 from flask_wtf.csrf import CSRFProtect

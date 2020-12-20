@@ -7,6 +7,7 @@ window.addEventListener("load", () => {
   const crawlResponseText = document.querySelector("#crawl-response__text");
 
   function processCrawlReqeust() {
+    hideDownloadInterface();
     if (form.checkValidity()) {
       showCrawlResponse(
         "okay, crawling the web now...",
@@ -85,6 +86,11 @@ window.addEventListener("load", () => {
     downloadLink.href = url;
     downloadLinkWrapper.classList.add("download-active");
     downloadLinkWrapper.scrollIntoView();
+  }
+
+  function hideDownloadInterface() {
+    downloadLink.href = "";
+    downloadLinkWrapper.classList.remove("download-active");
   }
 
   formBtn.addEventListener("click", processCrawlReqeust);
