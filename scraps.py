@@ -3,6 +3,7 @@ import datetime
 
 from app.controllers.user_controller import *
 from app.controllers.crawl_controller import *
+from app.controllers.admin_controller import *
 
 from flask import Flask, request, redirect, url_for, render_template, session, g, flash, send_from_directory
 from flask_wtf.csrf import CSRFProtect
@@ -103,7 +104,7 @@ def crawl():
         return render_template("crawl-form.jinja.html")
 
 
-@app.route('/public/<path:filename>', methods=["GET"])
+@app.route('/public/<path:filename>', methods=["GET", "POST"])
 def download(filename):
     if 'user' not in session:
         return {
@@ -113,3 +114,14 @@ def download(filename):
         }, 401
     else:
         return send_from_directory(directory="public/", filename=filename, as_attachment=True)
+
+
+@app.route('/admin', methods=["GET", "POST"])
+def admin():
+    if 'user' not in session or not session['user']['is_admin']:
+        flash(
+            "not authorized...", "danger")
+        return redirect(url_for('show_app_index'))
+    elif request.method == "GET":
+        active_crawl_dirs = get_all_active_crawls(session['user'])
+        return render_template("admin.jinja.html", crawl_dirs=active_crawl_dirs)

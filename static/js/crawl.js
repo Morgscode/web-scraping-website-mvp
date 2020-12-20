@@ -1,12 +1,16 @@
 window.addEventListener("load", () => {
   const form = document.querySelector("#crawl-form");
-  const formBtn = document.querySelector("#crawl-form-button");
+  const formBtn = document.querySelector("#scraps-form-btn");
   const downloadLink = document.querySelector("#download-link");
   const downloadLinkWrapper = document.querySelector("#download-wrapper");
   const crawlResponse = document.querySelector("#crawl-response");
   const crawlResponseText = document.querySelector("#crawl-response__text");
 
-  function processCrawlReqeust() {
+  function processCrawlReqeust(e) {
+    console.log(e);
+    if (e.target && e.target.id !== "scraps-form-btn") {
+      return false;
+    }
     hideDownloadInterface();
     if (form.checkValidity()) {
       showCrawlResponse(
@@ -20,8 +24,10 @@ window.addEventListener("load", () => {
           showCrawlResponse(data.message, responseClass);
           showDownloadInterface(data.downloadUrl);
           form.reset();
+          // console.log(data);
         })
         .catch((error) => {
+          // console.log(error);
           showCrawlResponse(
             "there was a problem crawling the site",
             "crawl-response__error",
@@ -58,6 +64,12 @@ window.addEventListener("load", () => {
     return response.json();
   }
 
+  function assignResponseClassByStatusCode(statusCode) {
+    return statusCode === 200
+      ? "crawl-response__success"
+      : "crawl-response__error";
+  }
+
   function showCrawlResponse(responseText, responseClass, responseTimeout) {
     hideCrawlResponse();
     crawlResponse.classList.add(responseClass);
@@ -76,12 +88,6 @@ window.addEventListener("load", () => {
     crawlResponseText.textContent = "";
   }
 
-  function assignResponseClassByStatusCode(statusCode) {
-    return statusCode === 200
-      ? "crawl-response__success"
-      : "crawl-response__error";
-  }
-
   function showDownloadInterface(url) {
     downloadLink.href = url;
     downloadLinkWrapper.classList.add("download-active");
@@ -93,5 +99,5 @@ window.addEventListener("load", () => {
     downloadLinkWrapper.classList.remove("download-active");
   }
 
-  formBtn.addEventListener("click", processCrawlReqeust);
+  form.addEventListener("click", processCrawlReqeust);
 });

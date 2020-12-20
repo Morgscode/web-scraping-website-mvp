@@ -17,7 +17,7 @@ class User:
 
     def make_model(self):
         self.db.cursor.execute(
-            "CREATE TABLE IF NOT EXISTS {table} (id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT, user_email VARCHAR(255), user_password VARCHAR(255), created_at DATETIME DEFAULT CURRENT_TIMESTAMP)".format(table=self.table))
+            "CREATE TABLE IF NOT EXISTS {table} (id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT, user_email VARCHAR(255), user_password VARCHAR(255), user_role tinyint NOT NULL DEFAULT 0, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)".format(table=self.table))
         self.db.dbconn.commit()
 
     def register_user(self):
@@ -61,6 +61,7 @@ class User:
             if user_row and self.credentials['user_email'] == user_row['user_email'] and is_user_password:
                 self.is_logged_in = True
                 self.id = user_row['id']
+                self.is_admin = user_row['user_role']
                 self.join_date = user_row['created_at']
                 return True
             else:

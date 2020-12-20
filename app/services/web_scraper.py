@@ -20,10 +20,7 @@ def get_webpage_html(url: str):
         # regardsless of result, we return the http response
         return html
     except Exception as e:
-
-        with open("./web-scraper-logs/error.txt", "a+") as error_file:
-            error_file.write(str(e))
-
+        print(e)
         # regardsless of result, we return the http response
         return html
 
@@ -145,10 +142,7 @@ def assess_content_type_for_text_or_json(response: requests.Response):
                 contenttype=content_type))
 
     except Exception as e:
-        # lets write some info to the logs
-        with open("./web-scraper-logs/error.txt", "a+") as error_file:
-            error_file.write(str(e))
-
+        print(e)
         return False
 
 

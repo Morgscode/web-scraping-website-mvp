@@ -1,4 +1,5 @@
 from app.models.Crawl import CrawlInstance
+from app.models.AdminUser import AdminUser
 
 from flask import session
 

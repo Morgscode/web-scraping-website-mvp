@@ -11,6 +11,7 @@ def bind_user_to_session(user: object):
             'password': user.credentials['user_password'],
             'id': user.id,
             'is_logged_in': 1,
+            'is_admin': user.is_admin,
             'member_since': user.join_date
         }
         session["user"] = user_dict

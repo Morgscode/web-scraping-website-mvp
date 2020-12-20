@@ -20,7 +20,7 @@ class MySQLDatabase:
 
     def fetch_all(self, table: str):
         try:
-            query = self.cursor.execute("SELECT * FROM `?`", table)
+            query = self.cursor.execute("SELECT * FROM `%s`", table)
             rows = self.cursor.fetchall()
             return rows
         except mysql.connector.Error as e:
