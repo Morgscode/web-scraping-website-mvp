@@ -13,9 +13,7 @@ function enableScrapsFormSubmission(token) {
 
 function createFormSubmit() {
   const submitBtn = document.createElement("button");
-  submitBtn.classList.add("btn");
-  submitBtn.classList.add("btn-info");
-  submitBtn.classList.add("btn-lg");
+  submitBtn.classList.add("btn", "btn-info", "btn-lg");
   submitBtn.innerText = "Submit";
   if (window.location.pathname == "/crawl") {
     submitBtn.type = "button";

@@ -1,6 +1,5 @@
 window.addEventListener("load", () => {
   const form = document.querySelector("#crawl-form");
-  const formBtn = document.querySelector("#scraps-form-btn");
   const downloadLink = document.querySelector("#download-link");
   const downloadLinkWrapper = document.querySelector("#download-wrapper");
   const crawlResponse = document.querySelector("#crawl-response");
@@ -44,7 +43,7 @@ window.addEventListener("load", () => {
 
   function convertFormDataToJson(form) {
     const formData = new FormData(form);
-    postData = {};
+    postData = new Object();
     formData.forEach((value, key) => (postData[key] = value));
     const json = JSON.stringify(postData);
     return json;
@@ -71,9 +70,8 @@ window.addEventListener("load", () => {
 
   function showCrawlResponse(responseText, responseClass, responseTimeout) {
     hideCrawlResponse();
-    crawlResponse.classList.add(responseClass);
     crawlResponseText.innerHTML = responseText;
-    crawlResponse.classList.add("crawl-response__active");
+    crawlResponse.classList.add(responseClass, "crawl-response__active");
     if (responseTimeout) {
       window.setTimeout(function () {
         hideCrawlResponse();
@@ -82,7 +80,6 @@ window.addEventListener("load", () => {
   }
 
   function hideCrawlResponse() {
-    crawlResponse.classList.remove("crawl-response__active");
     crawlResponse.className = "";
     crawlResponseText.textContent = "";
   }

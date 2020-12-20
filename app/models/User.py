@@ -6,14 +6,14 @@ from Db import MySQLDatabase
 
 class User:
     def __init__(self, user_data: dict):
+        self.db = MySQLDatabase()
+        self.table = 'users'
+        self.make_model()
         self.credentials = {
             'user_email': html.escape(user_data['user-email']),
             'user_password': html.escape(user_data['user-password'])
         }
         self.is_logged_in = False
-        self.db = MySQLDatabase()
-        self.table = 'users'
-        self.make_model()
 
     def make_model(self):
         self.db.cursor.execute(
