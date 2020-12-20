@@ -14,7 +14,7 @@
 
 {% block content %}
 <p class="heading-secondary p-4">You'll need to login to use use scraps</p>
-<form action="{{ url_for('login') }}" method="POST" class="p-4 mt-4 mb-4">
+<form action="{{ url_for('login') }}" method="POST" class="scraps-form p-4 mt-4 mb-4">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
   <div class="form-group mb-4">
     <label for="user-email">Email address</label>
@@ -27,6 +27,14 @@
     <input type="password" class="form-control form-control-lg" id="user-password" placeholder="Choose a password"
       name="user-password" autocomplete="current-password">
   </div>
-  <button type="submit" class="btn btn-lg btn-info">Submit</button>
+  <div class="captcha-wrapper mb-4">
+    <div class="g-recaptcha" data-sitekey="6Lf0Jw4aAAAAAPcF9b79-Yb-_uNW3U0cchkjwKrl"
+      data-callback="enableScrapsFormSubmission"></div>
+  </div>
 </form>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="{{ url_for('static', filename='js/captchaCallback.js') }}"></script>
 {% endblock %}

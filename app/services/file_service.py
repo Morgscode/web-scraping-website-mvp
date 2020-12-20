@@ -1,5 +1,6 @@
 import os
 import zipfile
+import shutil
 
 
 def setup_data_directory(parsed_target_url, id: int):
@@ -43,3 +44,8 @@ def compress_directory(dir: str):
             zip.write(os.path.join(dir, file))
 
     return zip
+
+
+def delete_data_directory(dir):
+    if os.path.exists(dir) and os.path.isdir(dir):
+        print('{dir} is a directory'.format(dir=dir))

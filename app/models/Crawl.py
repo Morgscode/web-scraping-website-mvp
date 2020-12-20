@@ -28,7 +28,7 @@ class CrawlInstance:
 
     def make_model(self):
         self.db.cursor.execute(
-            "CREATE TABLE IF NOT EXISTS {table} (id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT, webpage_url VARCHAR(255), crawl_option VARCHAR(255), content_option VARCHAR(255), pages_crawled INTEGER, crawl_errors INTEGER,user_id INTEGER, download_location VARCHAR(255), created_at DATETIME DEFAULT CURRENT_TIMESTAMP, files_deleted tinyint(1) DEFAULT 0)".format(table=self.table))
+            "CREATE TABLE IF NOT EXISTS {table} (id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT, webpage_url VARCHAR(255), crawl_option VARCHAR(255), content_option VARCHAR(255), pages_crawled INTEGER, crawl_errors INTEGER,user_id INTEGER, download_location VARCHAR(255), created_at DATETIME DEFAULT CURRENT_TIMESTAMP, files_deleted tinyint(1) NOT NULL DEFAULT 0)".format(table=self.table))
         self.db.dbconn.commit()
 
     def is_valid_url(self, url: str):

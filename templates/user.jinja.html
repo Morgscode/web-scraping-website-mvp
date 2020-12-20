@@ -8,6 +8,9 @@
 {% block nav_menu %}
 <ul class="navbar-nav text-light text-light ml-auto">
   <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('crawl') }}">crawl</a></li>
+  {% if session['user']['is_admin'] %}
+  <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('admin') }}">admin</a></li>
+  {% endif %}
   <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('logout') }}">logout</a></li>
 </ul>
 {% endblock %}

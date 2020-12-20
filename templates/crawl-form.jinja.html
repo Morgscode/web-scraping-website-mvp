@@ -10,13 +10,16 @@
   <li class="nav-item"><a class="nav-link text-light"
       href="{{ url_for('users', id=session['user']['id']) }}">profile</a>
   </li>
+  {% if session['user']['is_admin'] %}
+  <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('admin') }}">admin</a></li>
+  {% endif %}
   <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('logout')}}">logout</a></li>
 </ul>
 {% endblock %}
 
 {% block content %}
 <p class="heading-secondary p-4">This is where the magic happens</p>
-<form method="POST" class="p-4 mb-4" id="crawl-form">
+<form method="POST" class="p-4 mb-4 scraps-form" id="crawl-form">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
   <div class="form-group mb-4">
     <label for="webpage-url">Enter the webpage url</label>
@@ -39,7 +42,10 @@
       <option value="page-title">Page title</option>
     </select>
   </div>
-  <button type="button" class="btn btn-lg btn-info" id="crawl-form-button">Submit</button>
+  <div class="captcha-wrapper mb-4">
+    <div class="g-recaptcha" data-sitekey="6Lf0Jw4aAAAAAPcF9b79-Yb-_uNW3U0cchkjwKrl"
+      data-callback="enableScrapsFormSubmission"></div>
+  </div>
 </form>
 <div id="crawl-response__wrapper" class="crawl-response__wrapper--hidden p-4">
   <div id="crawl-response">
@@ -54,5 +60,7 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="{{ url_for('static', filename='js/captchaCallback.js') }}"></script>
 <script src="{{ url_for('static', filename='js/crawl.js') }}"></script>
 {% endblock %}
