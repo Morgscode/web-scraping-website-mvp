@@ -1,4 +1,8 @@
 function enableScrapsFormSubmission(token) {
+  const currentSubmitBtn = document.querySelector("#scraps-form-btn");
+  if (currentSubmitBtn) {
+    return false;
+  }
   const form = document.querySelector(".scraps-form");
   const submitBtn = document.createElement("button");
   submitBtn.classList.add("btn");
