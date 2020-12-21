@@ -50,9 +50,9 @@ def process_user_crawl_request(data: dict):
     }
 
 
-def get_all_user_crawls(data=False):
+def get_all_user_crawls(user_id, data=False):
 
-    crawl = CrawlInstance(data, session['user']['id'])
+    crawl = CrawlInstance(data, user_id)
 
     user_crawl_data = {
         "user_id": crawl.user_id
