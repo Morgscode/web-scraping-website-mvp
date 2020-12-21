@@ -67,7 +67,7 @@ def users(id):
             flash("invalid request", "danger")
             return render_template("user.jinja.html")
     else:
-        user_crawls = get_all_user_crawls()
+        user_crawls = get_all_user_crawls(session['user']['id'])
         return render_template("user.jinja.html", crawls=user_crawls)
 
 
@@ -123,5 +123,4 @@ def admin():
             "not authorized...", "danger")
         return redirect(url_for('show_app_index'))
     elif request.method == "GET":
-        active_crawl_dirs = get_all_active_crawls(session['user'])
-        return render_template("admin.jinja.html", crawl_dirs=active_crawl_dirs)
+        return render_template("admin.jinja.html")
